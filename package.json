@@ -1,15 +1,21 @@
 {
-  "name": "Informatinder",
+  "name": "informatinder",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
