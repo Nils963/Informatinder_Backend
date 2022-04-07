@@ -5,15 +5,18 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node -r dotenv/config server",
+    "dev": "nodemon -r dotenv/config server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.18.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
