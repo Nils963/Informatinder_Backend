@@ -3,6 +3,10 @@ import * as profileController from "../controllers/profiles.js";
 
 const router = express.Router();
 
-router.get("/", profileController.getMyProfile);
+router.get("/:id", profileController.getProfile);
+router.get("/", profileController.getAllProfiles);
+router.post("/", profileController.createProfile);
+router.patch("/:id", profileController.updateProfile);
+router.delete("/:id", profileController.deleteProfile);
 
 export default router;

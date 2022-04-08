@@ -6,6 +6,7 @@ import { checkAuth, ensureAuth } from "./middleware/auth.js";
 
 //Router
 import profileRouter from "./routes/profiles.js"
+import userRouter from "./routes/user.js"
 
 async function init() {
   db.authenticate()
@@ -13,7 +14,7 @@ async function init() {
       console.log('DB connected');
     })
     .catch(err => {
-      log("DB err", err)
+      console.log("DB err", err)
     })
 
   const PORT = 8080 || process.env.PORT;
@@ -24,6 +25,8 @@ async function init() {
 
   //Routes
   app.use('/profiles', profileRouter);
+  app.use('/user', userRouter);
+
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} ...`);
