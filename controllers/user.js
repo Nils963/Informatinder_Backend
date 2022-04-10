@@ -4,9 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const auth = async (req, res) => {
-  console.log("first");
   const { isLogin, username, email, password, confirmPassword } = req.body;
-  console.log(isLogin);
   if (isLogin == 1) {
     models.User.findOne({ username })
       .then(user => {
@@ -25,46 +23,49 @@ export const auth = async (req, res) => {
           }
         })
       })
-  } else {
-    console.log("register");
+  }
+  else {  //REGISTER
     if (password !== confirmPassword) {
       return res.status(400).send("Passwords don't match.")
     }
-    //check if email is correct regex
     const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    console.log(emailRegEx.test(email));
-    console.log('lalallallalal');
-    models.User.findOne({
-      where: { username, email }
-    })
-      .then(user => {
-        console.log(user);
-        if (!user) {
-          bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(password, salt, function (err, hash) {
-              models.User.create({
-                email,
-                username,
-                password: hash,
-              }).then(user => {
-                models.Profile.create({ user_id: user.id })
-                  .then(profile => {
-                    const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
-                    res.status(201).json({ token, profile })
-                  })
-              })
-            });
-          })
+
+    if (emailRegEx.test(email)) {
+      models.User.findOne({
+        where: { username, email }
+      })
+        .then(user => {
+          if (!user) {
+            bcrypt.genSalt(10, function (err, salt) {
+              bcrypt.hash(password, salt, function (err, hash) {
+                models.User.create({
+                  email,
+                  username,
+                  password: hash,
+                }).then(user => {
+                  models.Profile.create({ user_id: user.id })
+                    .then(profile => {
+                      const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                      res.status(201).json({ token, profile })
+                    })
+                })
+              });
+            })
 
 
-        } else {
-          return res.status(400).send("User already exists.")
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).send("500 - Server error");
-      })
+          } else {
+            return res.status(400).send("User already exists.")
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send("500 - Server error");
+        })
+    } else {
+      return res.status(400).send("No valid email address")
+    }
+
+
   }
 }
 

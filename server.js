@@ -1,12 +1,8 @@
 import express from "express";
 import db from "./db.js"
 
-//Middleware
-import { checkAuth, ensureAuth } from "./middleware/auth.js";
-
-//Router
-import profileRouter from "./routes/profiles.js"
-import userRouter from "./routes/user.js"
+import { checkAuth } from "./middleware/auth.js";
+import routes from "./routes/index.js"
 
 async function init() {
   db.authenticate()
@@ -23,10 +19,7 @@ async function init() {
   app.use(express.json());
   app.use(checkAuth);
 
-  //Routes
-  app.use('/profile', profileRouter);
-  app.use('/user', userRouter);
-
+  app.use('/', routes);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT} ...`);
