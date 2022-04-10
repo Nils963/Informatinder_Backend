@@ -25,6 +25,6 @@ export default (sequelize) => sequelize.define(
       field: 'password',
     }
   }, {
-  freezeTableName: true
+  freezeTableName: true,
 }
 );

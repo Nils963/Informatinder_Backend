@@ -1,4 +1,7 @@
+import { Sequelize } from "sequelize";
+const { or, like } = Sequelize.Op;
 import * as models from "../db.js";
+import bcrypt from "bcryptjs";
 
 export const getOneUser = async (req, res) => {
   const id = req.params.id;
@@ -31,23 +34,48 @@ export const getAllUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
 
-  const obj = req.body;
-  //TODO validate
-  models.User.create(obj)
+  const { username, email, password, confirmPassword } = req.body;
+
+  if (password !== confirmPassword) {
+    return res.status(400).send("Passwords don't match.")
+  }
+  //check if email is correct regex
+  const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  console.log(emailRegEx.test(email));
+
+  models.User.findOne({
+    where: {
+      [or]: [
+        { username: { [like]: username } },
+        { email: { [like]: email } }
+      ]
+    }
+  })
     .then(user => {
-      models.Profile.create({ user_id: user.id })
-        .then(profile => {
-          res.status(201).json(profile)
+      if (!user) {
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(password, salt, function (err, hash) {
+            models.User.create({
+              email,
+              username,
+              password: hash,
+            }).then(user => {
+              models.Profile.create({ user_id: user.id })
+                .then(profile => {
+                  res.status(201).json(profile)
+                })
+            })
+          });
         })
+
+
+      } else {
+        return res.status(400).send("User already exists.")
+      }
     })
     .catch(err => {
-      if (err.errors[0].validatorKey == "not_unique") {
-        res.status(404).send('Not unique')
-      } else {
-        console.log();
-        res.status(500).send("500 - Server error");
-
-      }
+      console.log(err);
+      res.status(500).send("500 - Server error");
     })
 }
 
