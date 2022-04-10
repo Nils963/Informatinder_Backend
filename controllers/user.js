@@ -1,7 +1,73 @@
 import { Sequelize } from "sequelize";
-const { or, like } = Sequelize.Op;
 import * as models from "../db.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+export const auth = async (req, res) => {
+  console.log("first");
+  const { isLogin, username, email, password, confirmPassword } = req.body;
+  console.log(isLogin);
+  if (isLogin == 1) {
+    models.User.findOne({ username })
+      .then(user => {
+        if (!user) {
+          return res.status(400).send(`No user with the username ${username}.`);
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          if (result) {
+            const token = jwt.sign({ id: user._id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+            res.status(200).json({ token, user })
+          } else {
+            return res.status(400).send("Bad credentials.")
+          }
+        })
+      })
+  } else {
+    console.log("register");
+    if (password !== confirmPassword) {
+      return res.status(400).send("Passwords don't match.")
+    }
+    //check if email is correct regex
+    const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    console.log(emailRegEx.test(email));
+    console.log('lalallallalal');
+    models.User.findOne({
+      where: { username, email }
+    })
+      .then(user => {
+        console.log(user);
+        if (!user) {
+          bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(password, salt, function (err, hash) {
+              models.User.create({
+                email,
+                username,
+                password: hash,
+              }).then(user => {
+                models.Profile.create({ user_id: user.id })
+                  .then(profile => {
+                    const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    res.status(201).json({ token, profile })
+                  })
+              })
+            });
+          })
+
+
+        } else {
+          return res.status(400).send("User already exists.")
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send("500 - Server error");
+      })
+  }
+}
+
 
 export const getOneUser = async (req, res) => {
   const id = req.params.id;
@@ -30,53 +96,6 @@ export const getAllUsers = async (req, res) => {
       console.log(err);
       res.status(500).send("500 - Server error");
     });
-}
-
-export const createUser = async (req, res) => {
-
-  const { username, email, password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) {
-    return res.status(400).send("Passwords don't match.")
-  }
-  //check if email is correct regex
-  const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  console.log(emailRegEx.test(email));
-
-  models.User.findOne({
-    where: {
-      [or]: [
-        { username: { [like]: username } },
-        { email: { [like]: email } }
-      ]
-    }
-  })
-    .then(user => {
-      if (!user) {
-        bcrypt.genSalt(10, function (err, salt) {
-          bcrypt.hash(password, salt, function (err, hash) {
-            models.User.create({
-              email,
-              username,
-              password: hash,
-            }).then(user => {
-              models.Profile.create({ user_id: user.id })
-                .then(profile => {
-                  res.status(201).json(profile)
-                })
-            })
-          });
-        })
-
-
-      } else {
-        return res.status(400).send("User already exists.")
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send("500 - Server error");
-    })
 }
 
 export const updateUser = async (req, res) => {
