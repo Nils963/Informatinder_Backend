@@ -24,7 +24,7 @@ async function init() {
   app.use(checkAuth);
 
   //Routes
-  app.use('/profiles', profileRouter);
+  app.use('/profile', profileRouter);
   app.use('/user', userRouter);
 
 

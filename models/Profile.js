@@ -13,20 +13,22 @@ export default (sequelize) => sequelize.define(
     firstname: {
       type: DataTypes.STRING,
       field: 'firstname',
+      default: ""
     },
     lastname: {
       type: DataTypes.STRING,
       field: 'lastname',
+      default: ""
     },
     description: {
       type: DataTypes.STRING,
       field: 'description',
+      default: ""
     },
     isBetrieb: {
       type: DataTypes.BOOLEAN,
       field: 'isBetrieb',
       default: false,
-      allowNull: false
     },
 
   }, {

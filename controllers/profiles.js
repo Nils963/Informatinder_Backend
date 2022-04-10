@@ -19,7 +19,11 @@ export const getProfile = async (req, res) => {
 
 export const getAllProfiles = async (req, res) => {
 
-  models.Profile.findAll()
+  models.Profile.findAll({
+    // limit: 10,
+    // offset: param*10
+    // TODO besprechen
+  })
     .then(profiles => {
       res.status(200).json(profiles);
     })
@@ -29,6 +33,7 @@ export const getAllProfiles = async (req, res) => {
     });
 }
 
+//TODO besprechen ob gebraucht
 export const createProfile = async (req, res) => {
 
   const obj = req.body;
