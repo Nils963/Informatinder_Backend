@@ -51,8 +51,6 @@ export const auth = async (req, res) => {
                 })
               });
             })
-
-
           } else {
             return res.status(400).send("User already exists.")
           }
