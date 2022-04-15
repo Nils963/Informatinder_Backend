@@ -4,10 +4,12 @@ const sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.en
 
 import user from "./models/User.js";
 import profile from './models/Profile.js';
+import match from './models/Match.js';
 
 const modelDefiners = [
   user,
-  profile
+  profile,
+  match
   // Add more models here...
 ];
 
@@ -15,7 +17,7 @@ for (const modelDefiner of modelDefiners) {
   modelDefiner(sequelize);
 }
 
-export const { User, Profile } = sequelize.models;
+export const { User, Profile, Match } = sequelize.models;
 
 //Relations
 User.hasOne(Profile, {
@@ -25,7 +27,6 @@ User.hasOne(Profile, {
     name: "user_id"
   }
 });
-
 
 sequelize.sync();
 

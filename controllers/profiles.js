@@ -29,8 +29,8 @@ export const getAllProfiles = async (req, res) => {
 }
 
 export const createProfile = async (req, res) => {
-
   const obj = req.body;
+  //TODO validate data
   obj.user_id = req.user;
   models.Profile.create(obj)
     .then(profile => {
@@ -49,6 +49,7 @@ export const createProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
 
   const id = req.params.id;
+  //TODO validate data
   const obj = req.body;
   models.Profile.update(obj, {
     where: { id }

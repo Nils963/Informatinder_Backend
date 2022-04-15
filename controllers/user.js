@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const auth = async (req, res) => {
   const { isLogin, username, email, password, confirmPassword } = req.body;
-  if (isLogin == 1) {
+  if (isLogin === 1) {
     models.User.findOne({ username })
       .then(user => {
         if (!user) {
@@ -89,7 +89,7 @@ export const getAllUsers = async (req, res) => {
 
   models.User.findAll()
     .then(user => {
-      res.status(200).json(user);
+      res.status(200).json({ user });
     })
     .catch(err => {
       console.log(err);
