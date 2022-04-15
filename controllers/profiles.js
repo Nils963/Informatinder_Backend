@@ -6,9 +6,9 @@ export const getProfile = async (req, res) => {
   models.Profile.findByPk(id)
     .then(profile => {
       if (!profile) {
-        res.status(404).send("No Profile with given id")
+        res.status(404).send({ error: "No Profile with given id." })
       } else {
-        res.status(200).json(profile);
+        res.status(200).json({ profile });
       }
     })
     .catch(err => {
@@ -49,17 +49,24 @@ export const createProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
 
   const id = req.params.id;
-  //TODO validate data
+  //TODO validate data and destructure
   const obj = req.body;
   models.Profile.update(obj, {
     where: { id }
   })
-    .then(profile => {
-      console.log(profile);
-      res.status(200).send("Profile updated");
+    .then(count => {
+      if (count[0] === 0) {
+        return res.status(404).json({
+          error: "No Profile with given id",
+        })
+
+      } else {
+        res.status(200).send("Profile updated");
+      }
     })
     .catch(err => {
       console.log(err);
+      //check for not found error
       res.status(500).send("500 - Server error");
     })
 }
@@ -68,8 +75,15 @@ export const deleteProfile = async (req, res) => {
 
   const id = req.params.id;
   models.Profile.destroy({ where: { id } })
-    .then(profile => {
-      res.status(200).send("Profile deleted");
+    .then(count => {
+      if (count === 0) {
+        return res.status(404).json({
+          error: "No Profile with given id",
+        })
+
+      } else {
+        res.status(200).send("Profile deleted");
+      }
     })
     .catch(err => {
       console.log(err);

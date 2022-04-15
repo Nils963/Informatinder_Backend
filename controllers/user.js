@@ -18,7 +18,7 @@ export const login = async (req, res) => {
           const token = jwt.sign({ id: user._id, username: user.username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
           res.status(200).json({ token, user })
         } else {
-          return res.status(400).send("Bad credentials.")
+          return res.status(401).json({ error: "Bad credentials." })
         }
       })
     })
@@ -54,7 +54,7 @@ export const register = async (req, res) => {
             });
           })
         } else {
-          return res.status(400).send("User already exists.")
+          return res.status(400).send({ error: "User already exists." })
         }
       })
       .catch(err => {
@@ -62,7 +62,7 @@ export const register = async (req, res) => {
         res.status(500).send("500 - Server error");
       })
   } else {
-    return res.status(400).send("No valid email address")
+    return res.status(400).send({ error: "No valid email address." })
   }
 
 }
@@ -74,7 +74,7 @@ export const getOneUser = async (req, res) => {
   models.User.findByPk(id)
     .then(user => {
       if (!user) {
-        res.status(404).send("No User with given id")
+        res.status(404).send({ error: "No User with given id" })
       } else {
         res.status(200).json(user);
       }
@@ -104,11 +104,11 @@ export const updateUser = async (req, res) => {
     where: { id }
   })
     .then(user => {
-      console.log(user);
-      res.status(201).send("User updated");
+      res.status(200).json({ user })
     })
     .catch(err => {
       console.log(err);
+      //check for if no user with this id found
       res.status(500).send("500 - Server error");
     })
 }
@@ -119,10 +119,11 @@ export const deleteUser = async (req, res) => {
   models.User.destroy({ where: { id } })
     .then(user => {
       models.Profile.destroy({ where: { user_id: id } })
-      res.status(201).send("User deleted");
+      res.status(200).send("User deleted");
     })
     .catch(err => {
       console.log(err);
+      //check if no user was found
       res.status(500).send("500 - Server error");
     })
 }
