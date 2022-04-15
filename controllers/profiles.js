@@ -28,24 +28,6 @@ export const getAllProfiles = async (req, res) => {
     });
 }
 
-export const createProfile = async (req, res) => {
-  const obj = req.body;
-  //TODO validate data
-  obj.user_id = req.user;
-  models.Profile.create(obj)
-    .then(profile => {
-      console.log(profile);
-      res.status(201).send("Profile created");
-    })
-    .catch(err => {
-      console.log(err);
-      if (err.errno == 1062) {
-        return res.status(404);
-      }
-      res.status(500).send("500 - Server error");
-    })
-}
-
 export const updateProfile = async (req, res) => {
 
   const id = req.params.id;

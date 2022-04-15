@@ -3,7 +3,6 @@ import * as swipeController from "../controllers/swipe.js";
 
 const router = express.Router();
 
-router.get("/", swipeController.getProfiles);
-router.post("/", swipeController.getProfilesByPage);
+router.get("/:page/:count", swipeController.getProfilesByPage);
 
 export default router;
