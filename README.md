@@ -1,7 +1,18 @@
 # Informatinder API
   * [User-API](#user-api)
+    * [Login](#login-user)
+    * [Register](#register-user)
+    * [Get One User](#get-one-user)
+    * [Get All Users](#get-all-users)
+    * [Update User](#update-user)
+    * [Delete User](#delete-user)
   * [Profile-API](#profile-api)
+    * [Get One Profile](#get-one-profile)
+    * [Get All Profiles](#get-all-profiles)
+    * [Update Profile](#update-profile)
+    * [Delete Profile](#delete-profile)
   * [Swipe-API](#swipe-api)
+    * [Get Profiles By Page](#get-profiles-by-page)
   * [Future-API](#future-api)
 
 
