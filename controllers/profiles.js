@@ -24,13 +24,18 @@ export const getAllProfiles = async (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send("500 - Server error");
+      res.status(500).json({ error: "Server error" })
     });
 }
 
 export const updateProfile = async (req, res) => {
 
-  const id = req.params.id;
+  const id = Number(req.params.id);
+  //only if the id is the own
+  if (id !== req.user.user_id) {
+    console.log(req.user);
+    return res.status(401).json({ error: "Not authorized." })
+  }
   //TODO validate data and destructure
   const obj = req.body;
   models.Profile.update(obj, {
@@ -48,21 +53,24 @@ export const updateProfile = async (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      //check for not found error
-      res.status(500).send("500 - Server error");
+      res.status(500).json(err)
     })
 }
 
 export const deleteProfile = async (req, res) => {
 
-  const id = req.params.id;
+  const id = Number(req.params.id);
+  //only if the id is the own
+  if (id !== req.user.user_id) {
+    console.log(req.user);
+    return res.status(401).json({ error: "Not authorized." })
+  }
   models.Profile.destroy({ where: { id } })
     .then(count => {
       if (count === 0) {
         return res.status(404).json({
           error: "No Profile with given id",
         })
-
       } else {
         res.status(200).send("Profile deleted");
       }

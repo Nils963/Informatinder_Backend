@@ -176,7 +176,12 @@
   * **Error Response:**
 
     * **Code:** 404 <br />
-      **Content:** `{ error : "No User with given id }`
+      **Content:** `{ error : "No User found.}`
+
+    OR
+
+    * **Code:** 400 <br />
+      **Content:** `{ error : "Unique violation." }`
 
   * **Sample Call:**
 
@@ -209,7 +214,7 @@
   * **Error Response:**
 
     * **Code:** 404 <br />
-      **Content:** `{ error : "No User with given id }`
+      **Content:** `{ error : "No User found }`
 
   * **Sample Call:**
 

@@ -15,7 +15,7 @@ export const login = async (req, res) => {
           console.log(err);
         }
         if (result) {
-          const token = jwt.sign({ id: user._id, username: user.username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+          const token = jwt.sign({ id: user.id, username: user.username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
           res.status(200).json({ token, user })
         } else {
           return res.status(401).json({ error: "Bad credentials." })
@@ -104,12 +104,16 @@ export const updateUser = async (req, res) => {
     where: { id }
   })
     .then(user => {
+      if (user[0] === 0) {
+        return res.status(404).json({ error: "No user found." })
+      }
       res.status(200).json({ user })
     })
     .catch(err => {
-      console.log(err);
-      //check for if no user with this id found
-      res.status(500).send("500 - Server error");
+      if (err.errors[0].type === "unique violation") {
+        res.status(400).json({ error: "Unique violation." })
+      }
+      res.status(500).json({ error: "Server error" })
     })
 }
 
@@ -117,13 +121,13 @@ export const deleteUser = async (req, res) => {
 
   const id = req.params.id;
   models.User.destroy({ where: { id } })
-    .then(user => {
+    .then(count => {
+      if (count === 0) return res.status(404).json({ error: "No user found" })
       models.Profile.destroy({ where: { user_id: id } })
       res.status(200).send("User deleted");
     })
     .catch(err => {
       console.log(err);
-      //check if no user was found
       res.status(500).send("500 - Server error");
     })
 }
