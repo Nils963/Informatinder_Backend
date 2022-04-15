@@ -8,6 +8,7 @@ router.get("/", userController.getAllUsers);
 router.patch("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 
-router.post("/auth", userController.auth);
+router.post("/auth/login", userController.login);
+router.post("/auth/register", userController.register);
 
 export default router;

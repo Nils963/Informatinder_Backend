@@ -3,68 +3,68 @@ import * as models from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const auth = async (req, res) => {
-  const { isLogin, username, email, password, confirmPassword } = req.body;
-  if (isLogin === 1) {
-    models.User.findOne({ username })
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  models.User.findOne({ email })
+    .then(user => {
+      if (!user) {
+        return res.status(400).send(`No user with the email ${email}.`);
+      }
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result) {
+          const token = jwt.sign({ id: user._id, username: user.username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+          res.status(200).json({ token, user })
+        } else {
+          return res.status(400).send("Bad credentials.")
+        }
+      })
+    })
+
+}
+
+export const register = async (req, res) => {
+  const { username, email, password, confirmPassword } = req.body;
+  if (password !== confirmPassword) {
+    return res.status(400).send("Passwords don't match.")
+  }
+  const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+  if (emailRegEx.test(email)) {
+    models.User.findOne({
+      where: { username, email }
+    })
       .then(user => {
         if (!user) {
-          return res.status(400).send(`No user with the username ${username}.`);
+          bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(password, salt, function (err, hash) {
+              models.User.create({
+                email,
+                username,
+                password: hash,
+              }).then(user => {
+                models.Profile.create({ user_id: user.id })
+                  .then(profile => {
+                    const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    res.status(201).json({ token, user, profile })
+                  })
+              })
+            });
+          })
+        } else {
+          return res.status(400).send("User already exists.")
         }
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) {
-            console.log(err);
-          }
-          if (result) {
-            const token = jwt.sign({ id: user._id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
-            res.status(200).json({ token, user })
-          } else {
-            return res.status(400).send("Bad credentials.")
-          }
-        })
       })
-  }
-  else {  //REGISTER
-    if (password !== confirmPassword) {
-      return res.status(400).send("Passwords don't match.")
-    }
-    const emailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
-    if (emailRegEx.test(email)) {
-      models.User.findOne({
-        where: { username, email }
+      .catch(err => {
+        console.log(err);
+        res.status(500).send("500 - Server error");
       })
-        .then(user => {
-          if (!user) {
-            bcrypt.genSalt(10, function (err, salt) {
-              bcrypt.hash(password, salt, function (err, hash) {
-                models.User.create({
-                  email,
-                  username,
-                  password: hash,
-                }).then(user => {
-                  models.Profile.create({ user_id: user.id })
-                    .then(profile => {
-                      const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
-                      res.status(201).json({ token, profile })
-                    })
-                })
-              });
-            })
-          } else {
-            return res.status(400).send("User already exists.")
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).send("500 - Server error");
-        })
-    } else {
-      return res.status(400).send("No valid email address")
-    }
-
-
+  } else {
+    return res.status(400).send("No valid email address")
   }
+
 }
 
 
