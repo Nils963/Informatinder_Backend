@@ -1,7 +1,7 @@
 import * as models from "../db.js";
 
 export const getProfile = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
   models.Profile.findByPk(id)
     .then(profile => {
@@ -32,7 +32,7 @@ export const updateProfile = async (req, res) => {
 
   const id = Number(req.params.id);
   //only if the id is the own
-  if (id !== req.user.user_id) {
+  if (id !== req.user.id) {
     console.log(req.user);
     return res.status(401).json({ error: "Not authorized." })
   }
@@ -61,7 +61,7 @@ export const deleteProfile = async (req, res) => {
 
   const id = Number(req.params.id);
   //only if the id is the own
-  if (id !== req.user.user_id) {
+  if (id !== req.user.id) {
     console.log(req.user);
     return res.status(401).json({ error: "Not authorized." })
   }

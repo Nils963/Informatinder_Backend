@@ -1,4 +1,5 @@
 # Informatinder API
+  * [Installation](#installation)
   * [User-API](#user-api)
     * [Login](#login-user)
     * [Register](#register-user)
@@ -15,6 +16,13 @@
     * [Get Profiles By Page](#get-profiles-by-page)
   * [Future-API](#future-api)
 
+# Installation
+
+  * `cd` into directory
+  * `npm i`
+  * `npm run start` for starting the server
+  * `npm run dev` for starting the development live server
+  
 
 # User API
   **Login User**

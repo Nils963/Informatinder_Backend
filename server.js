@@ -13,7 +13,7 @@ async function init() {
       console.log("DB err", err)
     })
 
-  const PORT = 8080 || process.env.PORT;
+  const PORT = process.env.PORT || 8080;
   const app = express();
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());

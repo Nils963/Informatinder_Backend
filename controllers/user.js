@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize";
 import * as models from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -47,7 +46,7 @@ export const register = async (req, res) => {
               }).then(user => {
                 models.Profile.create({ user_id: user.id })
                   .then(profile => {
-                    const token = jwt.sign({ user_id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    const token = jwt.sign({ id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
                     res.status(201).json({ token, user, profile })
                   })
               })
