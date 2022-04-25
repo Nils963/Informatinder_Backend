@@ -85,7 +85,7 @@
 
   * **Data Params:**
 
-    * **Content:** `{ username, email, password, repeatPassword }`
+    * **Content:** `{ username, email, password, confirmPassword }`
       
   * **Success Response:**
 
