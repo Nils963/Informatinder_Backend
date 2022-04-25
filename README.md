@@ -15,11 +15,16 @@
   * [Swipe-API](#swipe-api)
     * [Get Profiles By Page](#get-profiles-by-page)
   * [Future-API](#future-api)
+    * [Get Matches](#get-matches)
+    * [Set Match](#set-match)
+    * [Get Settings](#get-settings)
+    * [Set Settings](#set-settings)
 
 # Installation
 
   * `cd` into directory
   * `npm i`
+  * crate a `.env` file and fill it with the example entries
   * `npm run start` for starting the server
   * `npm run dev` for starting the development live server
   
@@ -416,3 +421,135 @@
 
 The planned routes will be here.
 
+
+  **Get Matches**
+  ----
+  Returns my matches
+
+  * **URL:**
+    /matches
+
+  * **Method:**
+    `GET`
+    
+  *  **URL Params:**
+    None
+
+  * **Data Params:**
+    None
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** `{ count, profiles }`
+  
+  * **Error Response:**
+
+    * **Code:** 401 <br />
+      **Content:** `{ error : "Unauthorized. }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const getMatches = () => API.get(`/matches`);
+    ```
+<hr/>
+
+  **Set Match**
+  ----
+  Matches you with an other account
+
+  * **URL:**
+    /matches
+
+  * **Method:**
+    `POST`
+    
+  *  **URL Params:**
+    None
+
+  * **Data Params:**
+    * **Content:** `{ receiverId }`
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** `{ profile }`
+  
+  * **Error Response:**
+
+    * **Code:** 401 <br />
+      **Content:** `{ error : "Unauthorized. }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const postMatch = (receiverId) => API.post(`/matches`, {receiverId});
+    ```
+<hr/>
+
+**Get Settings**
+  ----
+  Returns this users settings
+
+  * **URL:**
+    /settings
+
+  * **Method:**
+    `GET`
+    
+  *  **URL Params:**
+    None
+
+  * **Data Params:**
+    None
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** `{ settings }`
+  
+  * **Error Response:**
+
+    * **Code:** 401 <br />
+      **Content:** `{ error : "Unauthorized. }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const getSettings = () => API.get(`/settings`);
+    ```
+<hr/>
+
+**Set settings**
+  ----
+  Post the settings, so its permanent
+
+  * **URL:**
+    /settings
+
+  * **Method:**
+    `POST`
+    
+  *  **URL Params:**
+    None
+
+  * **Data Params:**
+    * **Content:** `{ settings }`
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** `{ settings }`
+  
+  * **Error Response:**
+
+    * **Code:** 401 <br />
+      **Content:** `{ error : "Unauthorized. }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const setSettings = (settings) => API.post(`/settings`, {settings});
+    ```
+<hr/>
