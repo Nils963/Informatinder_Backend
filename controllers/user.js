@@ -3,8 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
+  console.log("shit is happening")
+  console.log(req.body)
   const { email, password } = req.body;
-  models.User.findOne({ email })
+  models.User.findOne({
+    where: { email }
+  })
     .then(user => {
       if (!user) {
         return res.status(400).send(`No user with the email ${email}.`);
