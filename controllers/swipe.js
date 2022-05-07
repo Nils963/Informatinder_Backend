@@ -2,7 +2,7 @@
 import * as models from "../db.js";
 
 export const getProfilesByPage = async (req, res) => {
-  const { count, page } = req.params;
+  let { count, page } = req.params;
   if (page < 1) {
     page = 1
   }
