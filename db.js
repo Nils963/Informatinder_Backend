@@ -1,6 +1,8 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-const sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/informatinder`);
+const sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/informatinder`, {
+  logging: false,
+});
 
 import user from "./models/User.js";
 import profile from './models/Profile.js';
@@ -17,8 +19,8 @@ for (const modelDefiner of modelDefiners) {
   modelDefiner(sequelize);
 }
 
-export const { User, Profile, Match } = sequelize.models;
 
+export const { User, Profile, Match } = sequelize.models;
 //Relations
 User.hasOne(Profile, {
   foreignKey: {
@@ -31,4 +33,4 @@ User.hasOne(Profile, {
 sequelize.sync();
 
 
-export default sequelize;
+export const db = sequelize;
