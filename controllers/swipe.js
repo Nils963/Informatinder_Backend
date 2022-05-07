@@ -3,7 +3,7 @@ import * as models from "../db.js";
 
 export const getProfilesByPage = async (req, res) => {
   const { count, page } = req.params;
-
+  page === 0 ? page = 1 : page
   const offset = (page - 1) * count;
 
   models.Profile.count().then(countProfiles => {
