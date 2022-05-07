@@ -79,7 +79,7 @@ export const getOneUser = async (req, res) => {
       if (!user) {
         res.status(404).send({ error: "No User with given id" })
       } else {
-        res.status(200).json(user);
+        res.status(200).json({ user });
       }
     })
     .catch(err => {
@@ -114,7 +114,7 @@ export const updateUser = async (req, res) => {
     })
     .catch(err => {
       if (err.errors[0].type === "unique violation") {
-        res.status(400).json({ error: "Unique violation." })
+        return res.status(400).json({ error: "Unique violation." })
       }
       res.status(500).json({ error: "Server error" })
     })

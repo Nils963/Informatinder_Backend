@@ -17,8 +17,8 @@
     ]
   },
   "scripts": {
-    "start": "node -r dotenv/config server",
-    "dev": "nodemon -r dotenv/config server",
+    "start": "node -r dotenv/config index",
+    "dev": "nodemon -r dotenv/config index",
     "test": "jest --setupFiles dotenv/config --testTimeout=10000"
   },
   "keywords": [],

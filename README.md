@@ -27,6 +27,7 @@
   * crate a `.env` file and fill it with the example entries
   * `npm run start` for starting the server
   * `npm run dev` for starting the development live server
+  * `npm test` for testing
   
 
 # User API
