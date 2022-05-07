@@ -36,9 +36,12 @@ export const updateProfile = async (req, res) => {
     console.log(req.user);
     return res.status(401).json({ error: "Not authorized." })
   }
-  //TODO validate data and destructure
-  const obj = req.body;
-  models.Profile.update(obj, {
+  //TODO validate data
+  models.Profile.update({
+    name: req.body.name,
+    description: req.body.description,
+    isBetrieb: req.body.isBetrieb,
+  }, {
     where: { id }
   })
     .then(count => {
