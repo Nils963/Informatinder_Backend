@@ -331,7 +331,7 @@
 
   * **Data Params:**
   
-    * **Content:** `{ firstname, lastname, description, isBetrieb }`
+    * **Content:** `{ name, description, isBetrieb }`
 
   * **Success Response:**
 

@@ -10,15 +10,9 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       autoIncrement: true,
     },
-    firstname: {
+    name: {
       type: DataTypes.STRING,
-      field: 'firstname',
-      allowNull: false,
-      default: ""
-    },
-    lastname: {
-      type: DataTypes.STRING,
-      field: 'lastname',
+      field: 'name',
       allowNull: false,
       default: ""
     },
