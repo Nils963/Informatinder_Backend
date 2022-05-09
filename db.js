@@ -6,7 +6,8 @@ if (process.env.NODE_ENV === "test") {
   sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'tests/testsdb.sqlite',
-    logging: false
+    database: "informatinder",
+    logging: true
   });
 } else {
   console.log("PROD DB");
