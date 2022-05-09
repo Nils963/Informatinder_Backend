@@ -5,7 +5,6 @@ const requestWithSupertest = supertest(server);
 const endpoint = "/user"
 let testServer;
 let testToken = "";
-let testIndex;
 
 describe(`${endpoint} Endpoint`, () => {
 
@@ -15,17 +14,26 @@ describe(`${endpoint} Endpoint`, () => {
     });
   });
 
-  // //REGISTER USER
-  // it('POST /user/auth/register should register the user', async () => {
-  //   const res = await requestWithSupertest
-  //     .post(endpoint + "/auth/register")
-  //     .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de" })
+  //REGISTER USER
+  it('POST /user/auth/register should register the user', async () => {
+    const res = await requestWithSupertest
+      .post(endpoint + "/auth/register")
+      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de" })
 
-  //   expect(res.status).toEqual(201);
-  //   expect(res.type).toEqual(expect.stringContaining('json'));
-  //   expect(res.body).toHaveProperty('user')
-  //   testIndex = res.body.json().user.id;
-  // });
+    expect(res.status).toEqual(201);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('user')
+  });
+
+  it('POST /user/auth/register should register the user', async () => {
+    const res = await requestWithSupertest
+      .post(endpoint + "/auth/register")
+      .send({ username: "JESTusername2", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST2@mail.de" })
+
+    expect(res.status).toEqual(201);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('user')
+  });
 
   it('POST /user/auth/register should return an error if similar username or mail', async () => {
     const res = await requestWithSupertest
@@ -95,6 +103,26 @@ describe(`${endpoint} Endpoint`, () => {
       .patch(endpoint + "/-1")
       .set("x-access-token", testToken)
       .send({ username: "test", password: "test", email: "email@mail.de" })
+
+    expect(res.status).toEqual(404);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('error')
+  });
+
+  it('DELETE /user/:id should delete user', async () => {
+    const res = await requestWithSupertest
+      .delete(endpoint + "/1")
+      .set("x-access-token", testToken)
+      .send()
+
+    expect(res.status).toEqual(200);
+  });
+
+  it('DELETE /user/:id should return error with invalid Id', async () => {
+    const res = await requestWithSupertest
+      .delete(endpoint + "/-1")
+      .set("x-access-token", testToken)
+      .send()
 
     expect(res.status).toEqual(404);
     expect(res.type).toEqual(expect.stringContaining('json'));

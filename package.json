@@ -19,7 +19,7 @@
   "scripts": {
     "start": "node -r dotenv/config index",
     "dev": "nodemon -r dotenv/config index",
-    "test": "jest --setupFiles dotenv/config --testTimeout=10000"
+    "test": "rm ./tests/testsdb.sqlite && jest --setupFiles dotenv/config --testTimeout=10000"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +40,7 @@
     "jest": "^28.1.0",
     "jest-cli": "^28.1.0",
     "nodemon": "^2.0.15",
+    "sqlite3": "^5.0.8",
     "supertest": "^6.2.3"
   },
   "jest": {

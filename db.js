@@ -1,8 +1,21 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-const sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/informatinder`, {
-  logging: false,
-});
+let sequelize;
+if (process.env.NODE_ENV === "test") {
+  console.log("TEST DB");
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'tests/testsdb.sqlite',
+    logging: false
+  });
+} else {
+  console.log("PROD DB");
+  sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/informatinder`, {
+    logging: false,
+  });
+}
+
+
 
 import user from "./models/User.js";
 import profile from './models/Profile.js';
