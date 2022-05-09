@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "test") {
     dialect: 'sqlite',
     storage: 'tests/testsdb.sqlite',
     database: "informatinder",
-    logging: true
+    logging: false
   });
 } else {
   console.log("PROD DB");
