@@ -2,9 +2,11 @@ const { server } = require("../server.js");
 const supertest = require("supertest");
 const requestWithSupertest = supertest(server);
 const dotenv = require("dotenv");
-dotenv.config({
-  path: ".env.test"
-})
+if (process.env.NODE_ENV === "test") {
+  dotenv.config({
+    path: ".env.test"
+  })
+}
 
 const endpoint = "/user"
 let testServer;
@@ -17,7 +19,6 @@ describe(`${endpoint} Endpoint`, () => {
       global.agent = supertest.agent(testServer);
     });
   });
-  console.log(process.env.PORT);
 
   //REGISTER USER
   it('POST /user/auth/register should register the user', async () => {
@@ -60,7 +61,7 @@ describe(`${endpoint} Endpoint`, () => {
     expect(res.body).toHaveProperty('error')
   });
 
-  //LOGIN USER
+  //TODO LOGIN USER
 
   it('GET /user should show all users', async () => {
     const res = await requestWithSupertest.get(endpoint);

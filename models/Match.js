@@ -23,8 +23,8 @@ export default (sequelize) => sequelize.define(
       ref: Profile,
       allowNull: false,
     },
-    accepeted: {
-      type: DataTypes.INTEGER,
+    accepted: {
+      type: DataTypes.BOOLEAN,
       field: 'accepted',
       allowNull: false,
       default: false,

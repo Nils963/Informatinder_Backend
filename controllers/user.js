@@ -3,8 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
-  console.log("shit is happening")
-  console.log(req.body)
   const { email, password } = req.body;
   models.User.findOne({
     where: { email }
@@ -48,7 +46,7 @@ export const register = async (req, res) => {
                 username,
                 password: hash,
               }).then(user => {
-                models.Profile.create({ user_id: user.id, name: "", description: "", isBetrieb: false })
+                models.Profile.create({ user_id: user.id, name: username, description: "", isBetrieb: false })
                   .then(profile => {
                     const token = jwt.sign({ id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
                     res.status(201).json({ token, user, profile })
