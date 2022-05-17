@@ -6,18 +6,23 @@ export const getMatches = async (req, res) => {
   if (user === undefined) {
     return res.status(401).json({ error: "Unauthorized" })
   }
-  console.log(user);
-  models.Match.findAll({
+  let val = await models.Match.findAll({
     where: {
       accepted: true,
       [Op.or]: [{ requester: user.id }, { responser: user.id }],
     }
-  }).then(val => {
-    console.log(val);
-    return res.status(200).json({ count: val.length, matches: val })
-  }).catch(err => {
-    return res.status(500).json({ error: err })
   })
+  let profiles = [];
+  if (val.length > 0) {
+    for (let i = 0; i < val.length; i++) {
+      const ele = val[i];
+      const matchedId = req.user.id === ele.requester ? ele.responser : ele.requester
+      let profile = await models.Profile.findByPk(matchedId)
+      profiles.push(profile.dataValues)
+    }
+  }
+  return res.status(200).json({ count: val.length, profiles: profiles })
+
 }
 
 export const like = async (req, res) => {
