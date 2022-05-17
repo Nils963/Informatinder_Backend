@@ -4,7 +4,7 @@ import { Op } from "sequelize"
 export const getMatches = async (req, res) => {
   const user = req.user;
   if (user === undefined) {
-    return res.status(400).json({ error: "No token given" })
+    return res.status(401).json({ error: "Unauthorized" })
   }
   console.log(user);
   models.Match.findAll({
@@ -14,7 +14,7 @@ export const getMatches = async (req, res) => {
     }
   }).then(val => {
     console.log(val);
-    return res.status(200).json({ matches: val })
+    return res.status(200).json({ count: val.length, matches: val })
   }).catch(err => {
     return res.status(500).json({ error: err })
   })
@@ -48,6 +48,9 @@ export const like = async (req, res) => {
 
 export const dislike = async (req, res) => {
   const user = req.user;
+  if (user === undefined) {
+    return res.status(401).json({ error: "Unauthorized" })
+  }
   const { id } = req.params;
   models.Match.destroy({
     where: {

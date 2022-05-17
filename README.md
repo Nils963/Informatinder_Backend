@@ -14,9 +14,11 @@
     * [Delete Profile](#delete-profile)
   * [Swipe-API](#swipe-api)
     * [Get Profiles By Page](#get-profiles-by-page)
-  * [Future-API](#future-api)
+  * * [Matches-API](#matches-api)
     * [Get Matches](#get-matches)
-    * [Set Match](#set-match)
+    * [Like Match](#like-match)
+    * [Dislike Match](#dislike-match)
+  * [Future-API](#future-api)
     * [Get Settings](#get-settings)
     * [Set Settings](#set-settings)
 
@@ -418,11 +420,7 @@
     ```
 <hr/>
 
-# Future API
-
-The planned routes will be here.
-
-
+# Matches API
   **Get Matches**
   ----
   Returns my matches
@@ -442,7 +440,7 @@ The planned routes will be here.
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ count, profiles }`
+      **Content:** `{ count, matches }`
   
   * **Error Response:**
 
@@ -456,38 +454,80 @@ The planned routes will be here.
     ```
 <hr/>
 
-  **Set Match**
+  **Like Match**
   ----
   Matches you with an other account
 
   * **URL:**
-    /matches
+    /matches/like/:id
 
   * **Method:**
     `POST`
     
   *  **URL Params:**
-    None
+    * **Content:** `{ id }`
 
   * **Data Params:**
-    * **Content:** `{ receiverId }`
+    * None
 
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profile }`
+      **Content:** None
   
   * **Error Response:**
 
+    * **Code:** 400 <br />
+      **Content:** `{ error : "You cant match yourself. }`
+
+      OR
+
     * **Code:** 401 <br />
-      **Content:** `{ error : "Unauthorized. }`
+      **Content:** `{ error : "Unauthorized" }`
 
   * **Sample Call:**
 
     ```javascript
-      const postMatch = (receiverId) => API.post(`/matches`, {receiverId});
+      const postMatch = (id) => API.post(`/matches/like/${id}`);
     ```
 <hr/>
+
+**Dislike Match**
+  ----
+  Matches you with an other account
+
+  * **URL:**
+    /matches/dislike/:id
+
+  * **Method:**
+    `POST`
+    
+  *  **URL Params:**
+    * **Content:** `{ id }`
+
+  * **Data Params:**
+    * None
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** None
+  
+  * **Error Response:**
+
+    * **Code:** 401 <br />
+      **Content:** `{ error : "Unauthorized" }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const postMatch = (id) => API.post(`/matches/dislike/${id}`);
+    ```
+<hr/>
+
+# Future API
+
+The planned routes will be here.
 
 **Get Settings**
   ----
