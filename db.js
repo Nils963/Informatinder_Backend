@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "test") {
   });
 } else {
   console.log("PROD DB");
-  sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/informatinder`, {
+  sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/InformaTinder`, {
     logging: false,
   });
 }
