@@ -1,0 +1,20 @@
+[Unit]
+Description=server - Backend for InformaTinder
+Documentation=https://github.com/Nils963/Informatinder_Backend
+After=network.target
+
+[Service]
+EnvironmentFile=/home/Informatinder_Backend/.env
+WorkingDirectory=/home/Informatinder_Backend
+Type=simple
+User=backend
+Group=backend
+ExecStart=/usr/bin/npm start /home/Informatinder_Backend
+Restart=on-failure
+RestartSec=500ms
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=informatinder
+
+[Install]
+WantedBy=multi-user.target

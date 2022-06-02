@@ -2,7 +2,6 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 let sequelize;
 if (process.env.NODE_ENV === "test") {
-  console.log("TEST DB");
   sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'tests/testsdb.sqlite',
@@ -10,7 +9,6 @@ if (process.env.NODE_ENV === "test") {
     logging: false
   });
 } else {
-  console.log("PROD DB");
   sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/InformaTinder`, {
     logging: false,
   });
