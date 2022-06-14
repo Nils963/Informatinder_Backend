@@ -27,7 +27,7 @@ export const login = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword, isBetrieb } = req.body;
   if (password !== confirmPassword) {
     return res.status(400).send("Passwords don't match.")
   }
@@ -46,7 +46,16 @@ export const register = async (req, res) => {
                 username,
                 password: hash,
               }).then(user => {
-                models.Profile.create({ user_id: user.id, name: username, description: "", isBetrieb: false })
+                models.Profile.create({
+                  user_id: user.id,
+                  name: username,
+                  description: "",
+                  isBetrieb: (isBetrieb == "true"),
+                  image: "",
+                  website: "",
+                  location: "",
+                  experience: -1
+                })
                   .then(profile => {
                     const token = jwt.sign({ id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
                     res.status(201).json({ token, user, profile })

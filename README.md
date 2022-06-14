@@ -14,7 +14,7 @@
     * [Delete Profile](#delete-profile)
   * [Swipe-API](#swipe-api)
     * [Get Profiles By Page](#get-profiles-by-page)
-  * * [Matches-API](#matches-api)
+  * [Matches-API](#matches-api)
     * [Get Matches](#get-matches)
     * [Like Match](#like-match)
     * [Dislike Match](#dislike-match)

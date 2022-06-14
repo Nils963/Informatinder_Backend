@@ -1,12 +1,6 @@
 const { server } = require("../server.js");
 const supertest = require("supertest");
 const requestWithSupertest = supertest(server);
-const dotenv = require("dotenv");
-if (process.env.NODE_ENV === "test") {
-  dotenv.config({
-    path: ".env.test"
-  })
-}
 
 const endpoint = "/user"
 let testServer;
@@ -24,7 +18,7 @@ describe(`${endpoint} Endpoint`, () => {
   it('POST /user/auth/register should register the user', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de" })
+      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de", isBetrieb: false })
 
     expect(res.status).toEqual(201);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -34,7 +28,7 @@ describe(`${endpoint} Endpoint`, () => {
   it('POST /user/auth/register should register the user', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusername2", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST2@mail.de" })
+      .send({ username: "JESTusername2", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST2@mail.de", isBetrieb: true })
 
     expect(res.status).toEqual(201);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -44,7 +38,7 @@ describe(`${endpoint} Endpoint`, () => {
   it('POST /user/auth/register should return an error if similar username or mail', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de" })
+      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de", isBetrieb: false })
 
     expect(res.status).toEqual(400);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -54,7 +48,7 @@ describe(`${endpoint} Endpoint`, () => {
   it('POST /user/auth/register should return an error if no valid email', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusernameUnique", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUnnique" })
+      .send({ username: "JESTusernameUnique", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUnnique", isBetrieb: false })
 
     expect(res.status).toEqual(400);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -62,6 +56,10 @@ describe(`${endpoint} Endpoint`, () => {
   });
 
   //TODO LOGIN USER
+
+
+
+  //END TODO LOGIN USER
 
   it('GET /user should show all users', async () => {
     const res = await requestWithSupertest.get(endpoint);
