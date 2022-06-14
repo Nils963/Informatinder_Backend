@@ -59,5 +59,4 @@ Benefit.belongsToMany(Profile, { through: "ProfileBenefits" });
 
 sequelize.sync();
 
-
 export const db = sequelize;

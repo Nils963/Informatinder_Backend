@@ -45,6 +45,9 @@
     "supertest": "^6.2.3"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "./tests/suiteSetup.js"
+    ],
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
