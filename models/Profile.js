@@ -10,6 +10,12 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       autoIncrement: true,
     },
+    image: {
+      type: DataTypes.STRING,
+      field: 'image',
+      allowNull: false,
+      default: ""
+    },
     name: {
       type: DataTypes.STRING,
       field: 'name',
@@ -19,6 +25,24 @@ export default (sequelize) => sequelize.define(
     description: {
       type: DataTypes.STRING,
       field: 'description',
+      allowNull: false,
+      default: ""
+    },
+    website: {
+      type: DataTypes.STRING,
+      field: 'website',
+      allowNull: false,
+      default: ""
+    },
+    location: {
+      type: DataTypes.STRING,
+      field: 'location',
+      allowNull: false,
+      default: ""
+    },
+    experience: {
+      type: DataTypes.INTEGER,
+      field: 'experience',
       allowNull: false,
       default: ""
     },
