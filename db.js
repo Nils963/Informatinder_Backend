@@ -54,8 +54,8 @@ Profile.hasMany(Language, {
     name: "profile_id"
   },
 })
-Categorie.belongsToMany(Profile);
-Benefit.belongsToMany(Profile);
+Categorie.belongsToMany(Profile, { through: "ProfileCategories" });
+Benefit.belongsToMany(Profile, { through: "ProfileBenefits" });
 
 sequelize.sync();
 
