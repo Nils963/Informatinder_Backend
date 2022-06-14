@@ -12,6 +12,7 @@ app.use(bodyParser.json({ extended: true }));
 app.use(checkAuth);
 
 app.use('/', routes);
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
