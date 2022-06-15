@@ -31,6 +31,33 @@ export const getAllProfiles = async (req, res) => {
     });
 }
 
+export const uploadImage = async (req, res) => {
+
+  if (req.is("multipart/form-data")) {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file received" })
+
+    } else {
+      const profileId = Number(req.user.profile_id);
+      models.Profile.update({
+        image: "/public/" + req.file.filename
+      }, {
+        where: { id: profileId }
+      })
+        .then(count => {
+          if (count[0] === 0) {
+            return res.status(404).json({
+              error: "No Profile was updated",
+            })
+
+          } else {
+            return res.status(200).json({ success: true })//send("<img src=\"/public/" + req.file.filename + "\"></img>")
+          }
+        })
+    }
+  }
+}
+
 export const updateProfile = async (req, res) => {
 
   const id = Number(req.params.id);
@@ -44,6 +71,9 @@ export const updateProfile = async (req, res) => {
     name: req.body.name,
     description: req.body.description,
     isBetrieb: req.body.isBetrieb,
+    website: req.body.website,
+    location: req.body.location,
+    experience: req.body.experience,
   }, {
     where: { id }
   })

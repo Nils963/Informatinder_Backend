@@ -1,5 +1,5 @@
-const { server } = require("../server.js");
-const supertest = require("supertest");
+import { server } from "../server.js";
+import supertest from "supertest";
 const requestWithSupertest = supertest(server);
 
 const endpoint = "/user"

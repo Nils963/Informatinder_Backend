@@ -19,7 +19,8 @@
   "scripts": {
     "start": "node -r dotenv/config index",
     "dev": "nodemon -r dotenv/config index",
-    "test": "rm -f ./tests/testsdb.sqlite && jest --testTimeout=10000"
+    "test": " NODE_OPTIONS=--experimental-vm-modules jest --testTimeout=10000",
+    "clean_test": "rm -f ./tests/testsdb.sqlite && npm test && rm -f ./tests/testsdb.sqlite"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.18.0"
   },
