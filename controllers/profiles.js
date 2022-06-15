@@ -38,7 +38,12 @@ export const uploadImage = async (req, res) => {
       return res.status(400).json({ error: "No file received" })
 
     } else {
-      const profileId = Number(req.user.profile_id);
+      let profileId = -1;
+      try {
+        profileId = Number(req.user.profile_id);
+      } catch (error) {
+        return res.status(400).json({ error: "Unauthorized" })
+      }
       models.Profile.update({
         image: "/public/" + req.file.filename
       }, {
