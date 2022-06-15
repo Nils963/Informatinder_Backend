@@ -26,7 +26,8 @@ export const login = async (req, res) => {
                 let profiles = profile.map(val => val.id)
                 token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id, profiles }, process.env.JWT_SECRET, { expiresIn: "30d" });
               }
-              return res.status(200).json({ token, user })
+              user.password = undefined;
+              return res.status(200).json({ token, user, profile: profile[0] })
             })
 
         } else {
@@ -69,6 +70,7 @@ export const register = async (req, res) => {
                 })
                   .then(profile => {
                     const token = jwt.sign({ id: user.id, username, email, profile_id: profile.id }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    user.password = undefined;
                     res.status(201).json({ token, user, profile })
                   })
               })
