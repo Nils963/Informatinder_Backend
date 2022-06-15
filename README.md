@@ -11,6 +11,7 @@
     * [Get One Profile](#get-one-profile)
     * [Get All Profiles](#get-all-profiles)
     * [Update Profile](#update-profile)
+    * [Upload Image](#upload-image)
     * [Delete Profile](#delete-profile)
   * [Swipe-API](#swipe-api)
     * [Get Profiles By Page](#get-profiles-by-page)
@@ -349,6 +350,40 @@
 
     ```javascript
       const updateProfile = (id, formdata) => API.patch(`/profile/${id}`, formdata);
+    ```
+<hr/>
+
+  **Upload Image**
+  ----
+  Upload an Image to a profile
+
+  * **URL:**
+    /profile/image
+
+  * **Method:**
+    `POST`
+    
+  *  **URL Params:**
+      None
+
+  * **Data Params:**
+  
+    * **Content:** Image as `jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF`
+
+  * **Success Response:**
+
+    * **Code:** 200 <br />
+      **Content:** `{ success: true}`
+  
+  * **Error Response:**
+
+    * **Code:** 400 <br />
+      **Content:** `{ error : "..." }`
+
+  * **Sample Call:**
+
+    ```javascript
+      const uploadImage = (image) => API.post(`/profile/image`, image);
     ```
 <hr/>
 

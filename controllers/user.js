@@ -16,8 +16,19 @@ export const login = async (req, res) => {
           console.log(err);
         }
         if (result) {
-          const token = jwt.sign({ id: user.id, username: user.username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
-          res.status(200).json({ token, user })
+          //get this users profile
+          models.Profile.findAll({ where: { user_id: user.id } })
+            .then(profile => {
+              let token = "";
+              if (profile != undefined && profile.length === 1) {
+                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+              } else if (profile != undefined && profile.length > 1) {
+                let profiles = profile.map(val => val.id)
+                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id, profiles }, process.env.JWT_SECRET, { expiresIn: "30d" });
+              }
+              return res.status(200).json({ token, user })
+            })
+
         } else {
           return res.status(401).json({ error: "Bad credentials." })
         }
@@ -57,7 +68,7 @@ export const register = async (req, res) => {
                   experience: -1
                 })
                   .then(profile => {
-                    const token = jwt.sign({ id: user.id, username, email }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    const token = jwt.sign({ id: user.id, username, email, profile_id: profile.id }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
                     res.status(201).json({ token, user, profile })
                   })
               })

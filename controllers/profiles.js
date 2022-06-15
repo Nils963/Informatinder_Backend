@@ -38,9 +38,22 @@ export const uploadImage = async (req, res) => {
       return res.status(400).json({ error: "No file received" })
 
     } else {
-      //TODO save file path in profile
-      console.log('file received');
-      return res.status(200).json({ success: true })
+      const profileId = Number(req.user.profile_id);
+      models.Profile.update({
+        image: "/public/" + req.file.filename
+      }, {
+        where: { id: profileId }
+      })
+        .then(count => {
+          if (count[0] === 0) {
+            return res.status(404).json({
+              error: "No Profile was updated",
+            })
+
+          } else {
+            return res.status(200).json({ success: true })//send("<img src=\"/public/" + req.file.filename + "\"></img>")
+          }
+        })
     }
   }
 }
