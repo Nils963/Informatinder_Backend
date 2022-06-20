@@ -18,7 +18,23 @@ export const getMatches = async (req, res) => {
       const ele = val[i];
       const matchedId = req.user.id === ele.requester ? ele.responser : ele.requester
       let profile = await models.Profile.findByPk(matchedId)
-      profiles.push(profile.dataValues)
+      await profile.getLanguages()
+        .then(languages => {
+          profile.dataValues.languages = languages;
+        })
+      if (profile.isBetrieb == true) {
+        await profile.getCategories()
+          .then(categories => {
+            profile.dataValues.categories = categories;
+          })
+        await profile.getBenefits()
+          .then(benefits => {
+            profile.dataValues.benefits = benefits;
+            profiles.push(profile.dataValues)
+          })
+      } else {
+        profiles.push(profile.dataValues)
+      }
     }
   }
   return res.status(200).json({ count: val.length, profiles: profiles })

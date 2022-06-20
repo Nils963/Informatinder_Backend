@@ -6,18 +6,38 @@ export const getProfile = async (req, res) => {
   }
   const id = Number(req.params.id);
 
-  models.Profile.findByPk(id)
-    .then(profile => {
-      if (!profile) {
+  let profile;
+  let languages;
+  let benefits;
+
+  await models.Profile.findByPk(id)
+    .then(profil => {
+      if (!profil) {
         res.status(404).json({ error: "No Profile with given id." })
       } else {
-        res.status(200).json({ profile });
+        profile = profil;
+        console.log();
+        return profile.getLanguages()
       }
+    })
+    .then(lang => {
+      languages = lang;
+      return profile.getBenefits()
+    })
+    .then(bene => {
+      benefits = bene;
+      return profile.getCategories()
+    })
+    .then(cate => {
+      return res.status(200).json({
+        profile, languages, benefits, categories: cate
+      })
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: "500 - Server error" });
     });
+
 }
 
 export const getAllProfiles = async (req, res) => {
