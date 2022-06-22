@@ -20,7 +20,8 @@
     "start": "node -r dotenv/config index",
     "dev": "nodemon -r dotenv/config index",
     "test": " NODE_OPTIONS=--experimental-vm-modules jest --testTimeout=10000",
-    "clean_test": "rm -f ./tests/testsdb.sqlite && npm test && rm -f ./tests/testsdb.sqlite"
+    "clean_test": "rm -f ./tests/testsdb.sqlite && npm test && rm -f ./tests/testsdb.sqlite",
+    "whoami": "whoami"
   },
   "keywords": [],
   "author": "",
