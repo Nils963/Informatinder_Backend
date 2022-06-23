@@ -1,5 +1,4 @@
 import { DataTypes } from 'sequelize';
-import RawLanguage from './RawLanguage.js';
 
 export default (sequelize) => sequelize.define(
   "Language",
@@ -11,10 +10,9 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       autoIncrement: true,
     },
-    language: {
-      type: DataTypes.INTEGER,
-      ref: RawLanguage,
-      field: 'language_id',
+    name: {
+      type: DataTypes.STRING,
+      field: 'name',
       allowNull: false,
     },
     experience: {
