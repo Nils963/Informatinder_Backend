@@ -18,7 +18,6 @@ export default (sequelize) => sequelize.define(
     username: {
       type: DataTypes.STRING,
       field: 'username',
-      unique: true,
     },
     password: {
       type: DataTypes.STRING,
