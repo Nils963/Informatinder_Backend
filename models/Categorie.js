@@ -3,6 +3,12 @@ import { DataTypes } from 'sequelize';
 export default (sequelize) => sequelize.define(
   "Categorie",
   {
+
+    name: {
+      type: DataTypes.STRING,
+      field: 'name',
+      allowNull: false,
+    },
     id: {
       type: DataTypes.INTEGER,
       field: 'id',
@@ -10,11 +16,6 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      field: 'name',
-      allowNull: false,
-    }
   }, {
   freezeTableName: true
 }

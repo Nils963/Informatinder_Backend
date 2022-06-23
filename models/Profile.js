@@ -40,12 +40,6 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       default: ""
     },
-    experience: {
-      type: DataTypes.INTEGER,
-      field: 'experience',
-      allowNull: false,
-      default: 0
-    },
     isBetrieb: {
       type: DataTypes.BOOLEAN,
       field: 'isBetrieb',
