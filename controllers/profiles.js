@@ -28,8 +28,16 @@ export const getProfile = async (req, res) => {
       return profile.getCategories()
     })
     .then(cate => {
+      let categoriesResult = [];
+      let benefitsResult = [];
+      cate.forEach(ele => {
+        categoriesResult.push(ele.name);
+      });
+      benefits.forEach(ele => {
+        benefitsResult.push(ele.name);
+      });
       return res.status(200).json({
-        profile, languages, benefits, categories: cate
+        profile, languages, benefits: benefitsResult, categories: categoriesResult
       })
     })
     .catch(err => {
