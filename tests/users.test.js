@@ -59,7 +59,7 @@ describe(`${endpoint} Endpoint`, () => {
 
 
 
-  //END TODO LOGIN USER
+  //END LOGIN USER
 
   it('GET /user should show all users', async () => {
     const res = await requestWithSupertest.get(endpoint);

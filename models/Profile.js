@@ -40,6 +40,12 @@ export default (sequelize) => sequelize.define(
       allowNull: false,
       default: ""
     },
+    contact: {
+      type: DataTypes.STRING,
+      field: 'contact',
+      allowNull: false,
+      default: ""
+    },
     isBetrieb: {
       type: DataTypes.BOOLEAN,
       field: 'isBetrieb',

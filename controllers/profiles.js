@@ -99,6 +99,9 @@ const validateUpdate = body => {
   if (body.categories == undefined) {
     errors++;
   }
+  if (body.contact == undefined) {
+    errors++;
+  }
 
   return errors === 0
 }
@@ -121,6 +124,7 @@ export const updateProfile = async (req, res) => {
     description: req.body.description,
     website: req.body.website,
     location: req.body.location,
+    contact: req.body.contact,
   }, {
     where: { id }
   })
