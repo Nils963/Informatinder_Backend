@@ -66,6 +66,7 @@ export const register = async (req, res) => {
                   image: "",
                   website: "",
                   location: "",
+                  contact: "",
                   experience: -1
                 })
                   .then(profile => {
