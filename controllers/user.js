@@ -63,7 +63,7 @@ export const register = async (req, res) => {
                   name: username,
                   description: "",
                   isBetrieb: (isBetrieb == "true"),
-                  image: "",
+                  image: "/public/default.png",
                   website: "",
                   location: "",
                   contact: "",
