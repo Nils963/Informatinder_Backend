@@ -14,17 +14,14 @@ export const getProfilesByPage = async (req, res) => {
 
   models.Profile.count().then(countProfiles => {
     if (countProfiles > (page - 1) * count) {
-      console.log(countProfiles);
       models.Profile.findAll({
         offset: Number(offset),
         limit: Number(count),
       })
         .then(profiles => {
-          console.log(profiles);
           res.status(200).json({ profiles, count: countProfiles });
         })
         .catch(err => {
-          console.log(err);
           res.status(500).json({ error: "Server error", count: countProfiles })
         });
     } else {

@@ -67,7 +67,6 @@ export const register = async (req, res) => {
                   website: "",
                   location: "",
                   contact: "",
-                  experience: -1
                 })
                   .then(profile => {
                     const token = jwt.sign({ id: user.id, username, email, profile_id: profile.id }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod

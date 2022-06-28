@@ -41,7 +41,6 @@ export const getProfile = async (req, res) => {
       })
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({ error: "500 - Server error" });
     });
 
@@ -53,7 +52,6 @@ export const getAllProfiles = async (req, res) => {
       res.status(200).json(profiles);
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({ error: "Server error" })
     });
 }
@@ -200,7 +198,6 @@ export const updateProfile = async (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json(err)
     })
 }
@@ -210,7 +207,6 @@ export const deleteProfile = async (req, res) => {
   const id = Number(req.params.id);
   //only if the id is the own
   if (id !== req.user.id) {
-    console.log(req.user);
     return res.status(401).json({ error: "Not authorized." })
   }
   models.Profile.destroy({ where: { id } })
@@ -224,7 +220,6 @@ export const deleteProfile = async (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(500).send("500 - Server error");
     })
 }
