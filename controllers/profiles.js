@@ -6,40 +6,19 @@ export const getProfile = async (req, res) => {
   }
   const id = Number(req.params.id);
 
-  let profile;
-  let languages;
-  let benefits;
-
-  await models.Profile.findByPk(id)
-    .then(profil => {
-      if (!profil) {
+  await models.Profile.findByPk(id, {
+    include: [models.Categorie, models.Benefit, models.Language]
+  })
+    .then(profile => {
+      if (!profile) {
         return res.status(404).json({ error: "No Profile with given id." })
       } else {
-        profile = profil;
-        return profile.getLanguages()
+        return res.status(200).json({
+          profile
+        })
       }
     })
-    .then(lang => {
-      languages = lang;
-      return profile.getBenefits()
-    })
-    .then(bene => {
-      benefits = bene;
-      return profile.getCategories()
-    })
-    .then(cate => {
-      let categoriesResult = [];
-      let benefitsResult = [];
-      cate.forEach(ele => {
-        categoriesResult.push(ele.name);
-      });
-      benefits.forEach(ele => {
-        benefitsResult.push(ele.name);
-      });
-      return res.status(200).json({
-        profile, languages, benefits: benefitsResult, categories: categoriesResult
-      })
-    })
+
     .catch(err => {
       res.status(500).json({ error: "500 - Server error" });
     });
@@ -47,7 +26,9 @@ export const getProfile = async (req, res) => {
 }
 
 export const getAllProfiles = async (req, res) => {
-  models.Profile.findAll()
+  models.Profile.findAll({
+    include: [models.Categorie, models.Benefit, models.Language]
+  })
     .then(profiles => {
       res.status(200).json(profiles);
     })
