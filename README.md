@@ -353,9 +353,9 @@
         name: String,
         description: String,
         website: String,
-        languages: Map<String, Int>
-        categories: [String]
-        benefits: [String]
+        languages: Map<String, Int>,
+        categories: [String],
+        benefits: [String],
         contact: String
       }
       const updateProfile = (id, formdata) => API.patch(`/profile/${id}`, formdata);
