@@ -141,6 +141,8 @@ export const updateProfile = async (req, res) => {
         })
 
       } else {
+        //delete all languages for this user
+        models.Language.destroy({ where: { profile_id: id } })
         //set languages
         const langs = JSON.parse(req.body.languages)
         for (let key in langs) {
@@ -160,6 +162,8 @@ export const updateProfile = async (req, res) => {
             })
 
         }
+        //delete all categories for this user
+        profile.setCategories([]);
         const categories = JSON.parse(req.body.categories)
         for (let cate in categories) {
           models.Categorie.findOne({ where: { name: categories[cate] } })
@@ -176,7 +180,10 @@ export const updateProfile = async (req, res) => {
             })
         }
 
+
         if (req.body.benefits != undefined) {
+          //delete all languages for this user
+          profile.setBenefits([])
           const benefits = JSON.parse(req.body.benefits)
           for (let bene in benefits) {
             models.Benefit.findOne({ where: { name: benefits[bene] } })

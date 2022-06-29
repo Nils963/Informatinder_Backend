@@ -7,10 +7,6 @@ export const getProfilesByPage = async (req, res) => {
     page = 1
   }
   const offset = (page - 1) * count;
-  let response = {
-    profiles: [],
-    count: 0
-  };
 
   models.Profile.count().then(countProfiles => {
     if (countProfiles > (page - 1) * count) {
