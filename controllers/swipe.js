@@ -1,5 +1,6 @@
 
 import * as models from "../db.js";
+import { Op } from "sequelize"
 
 export const getProfilesByPage = async (req, res) => {
   let { count, page } = req.params;
@@ -13,11 +14,16 @@ export const getProfilesByPage = async (req, res) => {
       models.Profile.findAll({
         offset: Number(offset),
         limit: Number(count),
+        where: {
+          id: { [Op.ne]: req.user.id }
+        },
+        include: [models.Categorie, models.Benefit, models.Language]
       })
         .then(profiles => {
           res.status(200).json({ profiles, count: countProfiles });
         })
         .catch(err => {
+          console.log(err);
           res.status(500).json({ error: "Server error", count: countProfiles })
         });
     } else {
