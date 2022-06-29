@@ -89,7 +89,7 @@
 
   * **Data Params:**
 
-    * **Content:** `{ username, email, password, confirmPassword }`
+    * **Content:** `{ username, email, password, confirmPassword, isBetrieb }`
       
   * **Success Response:**
 
@@ -272,7 +272,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profile }`
+      **Content:** `{ profile: {..., Categories, Benefits, Languages} }`
   
   * **Error Response:**
 
@@ -305,7 +305,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profile }`
+      **Content:** `{ profiles: [profile: {..., Categories, Benefits, Languages}] }`
   
   * **Error Response:**
 
@@ -334,7 +334,7 @@
 
   * **Data Params:**
   
-    * **Content:** `{ name, description, isBetrieb }`
+    * **Content:** `{ name, description, website, languages, categories, benefits, contact }`
 
   * **Success Response:**
 
@@ -349,6 +349,15 @@
   * **Sample Call:**
 
     ```javascript
+      let types = {
+        name: String,
+        description: String,
+        website: String,
+        languages: Map<String, Int>
+        categories: [String]
+        benefits: [String]
+        contact: String
+      }
       const updateProfile = (id, formdata) => API.patch(`/profile/${id}`, formdata);
     ```
 <hr/>
@@ -441,7 +450,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profiles, count }`
+      **Content:** `{ profiles: [profile: {..., Categories, Benefits, Languages}], count }`
   
   * **Error Response:**
 
@@ -475,7 +484,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ count, matches }`
+      **Content:** `{ count, profiles: [profile: {..., Categories, Benefits, Languages}] }`
   
   * **Error Response:**
 
