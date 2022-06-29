@@ -20,7 +20,23 @@ export const getProfilesByPage = async (req, res) => {
         include: [models.Categorie, models.Benefit, models.Language]
       })
         .then(profiles => {
-          res.status(200).json({ profiles, count: countProfiles });
+          let response = [];
+          profiles.forEach(profile => {
+            let languages = {};
+            let benefits = [];
+            let categories = [];
+            profile.Languages.forEach(element => {
+              languages[element.name] = element.experience
+            });
+            profile.Benefits.forEach(element => {
+              benefits.push(element.name)
+            });
+            profile.Categories.forEach(element => {
+              categories.push(element.name)
+            });
+            response.push({ profile, languages, benefits, categories })
+          })
+          res.status(200).json({ profiles: response, count: countProfiles });
         })
         .catch(err => {
           console.log(err);

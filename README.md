@@ -272,7 +272,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profile: {..., Categories, Benefits, Languages} }`
+      **Content:** `{ profile, categories, languages , benefits}`
   
   * **Error Response:**
 
@@ -305,7 +305,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profiles: [profile: {..., Categories, Benefits, Languages}] }`
+      **Content:** `{ profiles: [{profile, categories, benefits, languages}] }`
   
   * **Error Response:**
 
@@ -450,7 +450,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ profiles: [profile: {..., Categories, Benefits, Languages}], count }`
+      **Content:** `{ profiles: [{profile, categories, benefits, languages}], count }`
   
   * **Error Response:**
 

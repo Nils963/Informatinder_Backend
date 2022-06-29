@@ -13,8 +13,24 @@ export const getProfile = async (req, res) => {
       if (!profile) {
         return res.status(404).json({ error: "No Profile with given id." })
       } else {
+        let languages = {};
+        let benefits = [];
+        let categories = [];
+        profile.Languages.forEach(element => {
+          languages[element.name] = element.experience
+        });
+        profile.Benefits.forEach(element => {
+          benefits.push(element.name)
+        });
+        profile.Categories.forEach(element => {
+          categories.push(element.name)
+        });
+
         return res.status(200).json({
-          profile
+          profile,
+          categories,
+          languages,
+          benefits
         })
       }
     })
@@ -30,7 +46,23 @@ export const getAllProfiles = async (req, res) => {
     include: [models.Categorie, models.Benefit, models.Language]
   })
     .then(profiles => {
-      res.status(200).json(profiles);
+      let response = [];
+      profiles.forEach(profile => {
+        let languages = {};
+        let benefits = [];
+        let categories = [];
+        profile.Languages.forEach(element => {
+          languages[element.name] = element.experience
+        });
+        profile.Benefits.forEach(element => {
+          benefits.push(element.name)
+        });
+        profile.Categories.forEach(element => {
+          categories.push(element.name)
+        });
+        response.push({ profile, languages, benefits, categories })
+      })
+      res.status(200).json({ profiles: response });
     })
     .catch(err => {
       res.status(500).json({ error: "Server error" })
