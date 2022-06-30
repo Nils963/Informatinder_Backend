@@ -12,17 +12,12 @@ describe(`${endpoint} Endpoint`, () => {
     testServer = server.listen(null, () => {
       global.agent = supertest.agent(testServer);
     });
-  });
-
-  //REGISTER USER
-  it('POST /user/auth/register should register the user', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de", isBetrieb: false })
+      .send({ username: "JESTTestUserusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUser@mail.de", isBetrieb: false })
 
-    expect(res.status).toEqual(201);
-    expect(res.type).toEqual(expect.stringContaining('json'));
-    expect(res.body).toHaveProperty('user')
+    testToken = JSON.parse(res).token;
+
   });
 
   it('POST /user/auth/register should register the user', async () => {
