@@ -484,7 +484,7 @@
   * **Success Response:**
 
     * **Code:** 200 <br />
-      **Content:** `{ count, profiles: [profile: {..., Categories, Benefits, Languages}] }`
+      **Content:** `{ count, profiles: [profile, languages, benefits, categories] }`
   
   * **Error Response:**
 
