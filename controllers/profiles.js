@@ -49,22 +49,17 @@ export const getAllProfiles = async (req, res) => {
       let response = [];
       profiles.forEach(profile => {
         let languages = {};
-        let benefits = [];
-        let categories = [];
         profile.Languages.forEach(element => {
           languages[element.name] = element.experience
         });
-        profile.Benefits.forEach(element => {
-          benefits.push(element.name)
-        });
-        profile.Categories.forEach(element => {
-          categories.push(element.name)
-        });
+        let benefits = profile.Benefits.map(element => element.name);
+        let categories = profile.Categories.map(element => element.name);
         response.push({ profile, languages, benefits, categories })
       })
       res.status(200).json({ profiles: response });
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({ error: "Server error" })
     });
 }
