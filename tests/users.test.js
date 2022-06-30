@@ -55,11 +55,38 @@ describe(`${endpoint} Endpoint`, () => {
     expect(res.body).toHaveProperty('error')
   });
 
-  //TODO LOGIN USER
+  //Login User Tests
+  it('POST /user/auth/login should return the user and the JWT-token', async () => {
+    const res = await requestWithSupertest
+      .post(endpoint + "/auth/login")
+      .send({ email: "JEST@mail.de", password: "JESTpassword" })
 
+    expect(res.status).toEqual(200);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('user');
+    expect(res.body).toHaveProperty('token');
+  });
 
+  it('POST /user/auth/login should return error no user', async () => {
+    const res = await requestWithSupertest
+      .post(endpoint + "/auth/login")
+      .send({ email: "unknown@mail.de", password: "JESTpassword" })
 
-  //END LOGIN USER
+    expect(res.status).toEqual(400);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('error');
+  });
+
+  it('POST /user/auth/login should return error bad credentials', async () => {
+    const res = await requestWithSupertest
+      .post(endpoint + "/auth/login")
+      .send({ email: "JEST@mail.de", password: "WRONGpassword" })
+
+    expect(res.status).toEqual(401);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('error');
+  });
+
 
   it('GET /user should show all users', async () => {
     const res = await requestWithSupertest.get(endpoint);
