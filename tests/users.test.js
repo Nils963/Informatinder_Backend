@@ -33,7 +33,7 @@ describe(`${endpoint} Endpoint`, () => {
   it('POST /user/auth/register should return an error if similar username or mail', async () => {
     const res = await requestWithSupertest
       .post(endpoint + "/auth/register")
-      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST@mail.de", isBetrieb: false })
+      .send({ username: "JESTusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JEST2@mail.de", isBetrieb: false })
 
     expect(res.status).toEqual(400);
     expect(res.type).toEqual(expect.stringContaining('json'));
