@@ -16,7 +16,7 @@ describe(`${endpoint} Endpoint`, () => {
       .post(endpoint + "/auth/register")
       .send({ username: "JESTTestUserusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUser@mail.de", isBetrieb: false })
 
-    testToken = JSON.parse(res).token;
+    testToken = res.token;
 
   });
 

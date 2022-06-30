@@ -19,7 +19,7 @@ describe(`${endpoint} Endpoint`, () => {
       .send({ username: "JESTTestUserusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUser@mail.de", isBetrieb: false })
 
     testToken = res.token;
-    testId = res.user.id;
+    testId = JSON.parse(res.user).id;
   });
 
   it('GET /profile should show all profiles', async () => {
