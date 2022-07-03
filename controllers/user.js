@@ -21,10 +21,10 @@ export const login = async (req, res) => {
             .then(profile => {
               let token = "";
               if (profile != undefined && profile.length === 1) {
-                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id, isBetrieb: profile[0].isBetrieb }, process.env.JWT_SECRET, { expiresIn: "30d" });
               } else if (profile != undefined && profile.length > 1) {
                 let profiles = profile.map(val => val.id)
-                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id, profiles }, process.env.JWT_SECRET, { expiresIn: "30d" });
+                token = jwt.sign({ id: user.id, username: user.username, email, profile_id: profile[0].id, isBetrieb: profile[0].isBetrieb, profiles }, process.env.JWT_SECRET, { expiresIn: "30d" });
               }
               user.password = undefined;
               return res.status(200).json({ token, user, profile: profile[0] })
@@ -47,7 +47,7 @@ export const register = async (req, res) => {
 
   if (emailRegEx.test(email)) {
     models.User.findOne({
-      where: { username, email }
+      where: { email }
     })
       .then(user => {
         if (!user) {
@@ -69,7 +69,7 @@ export const register = async (req, res) => {
                   contact: "",
                 })
                   .then(profile => {
-                    const token = jwt.sign({ id: user.id, username, email, profile_id: profile.id }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
+                    const token = jwt.sign({ id: user.id, username: user.username, isBetrieb, email, profile_id: profile.dataValues.id }, process.env.JWT_SECRET, { expiresIn: "30d" }) //for testing purposes. CHANGE for prod
                     user.password = undefined;
                     res.status(201).json({ token, user, profile })
                   })

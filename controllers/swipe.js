@@ -15,7 +15,8 @@ export const getProfilesByPage = async (req, res) => {
         offset: Number(offset),
         limit: Number(count),
         where: {
-          id: { [Op.ne]: req.user.id }
+          id: { [Op.ne]: req.user.id },
+          isBetrieb: !req.user.isBetrieb
         },
         include: [models.Categorie, models.Benefit, models.Language]
       })
