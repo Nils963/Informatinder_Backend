@@ -9,7 +9,12 @@ export const getProfilesByPage = async (req, res) => {
   }
   const offset = (page - 1) * count;
 
-  models.Profile.count().then(countProfiles => {
+  models.Profile.count({
+    where: {
+      id: { [Op.ne]: req.user.id },
+      isBetrieb: !req.user.isBetrieb
+    },
+  }).then(countProfiles => {
     if (countProfiles > (page - 1) * count) {
       models.Profile.findAll({
         offset: Number(offset),
