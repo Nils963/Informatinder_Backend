@@ -22,9 +22,8 @@ export const getProfilesByPage = async (req, res) => {
         .then(profiles => {
           let response = [];
           profiles.forEach(profile => {
-            let languages = {};
-            profile.Languages.forEach(element => {
-              languages[element.name] = element.experience
+            let languages = profile.Languages.map(element => {
+              return { name: element.name, experience: element.experience }
             });
             let benefits = profile.Benefits.map(element => element.name);
             let categories = profile.Categories.map(element => element.name);

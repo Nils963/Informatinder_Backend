@@ -13,18 +13,11 @@ export const getProfile = async (req, res) => {
       if (!profile) {
         return res.status(404).json({ error: "No Profile with given id." })
       } else {
-        let languages = {};
-        let benefits = [];
-        let categories = [];
-        profile.Languages.forEach(element => {
-          languages[element.name] = element.experience
+        let languages = profile.Languages.map(element => {
+          return { name: element.name, experience: element.experience }
         });
-        profile.Benefits.forEach(element => {
-          benefits.push(element.name)
-        });
-        profile.Categories.forEach(element => {
-          categories.push(element.name)
-        });
+        let benefits = profile.Benefits.map(element => element.name);
+        let categories = profile.Categories.map(element => element.name);
 
         return res.status(200).json({
           profile,
@@ -48,9 +41,8 @@ export const getAllProfiles = async (req, res) => {
     .then(profiles => {
       let response = [];
       profiles.forEach(profile => {
-        let languages = {};
-        profile.Languages.forEach(element => {
-          languages[element.name] = element.experience
+        let languages = profile.Languages.map(element => {
+          return { name: element.name, experience: element.experience }
         });
         let benefits = profile.Benefits.map(element => element.name);
         let categories = profile.Categories.map(element => element.name);
