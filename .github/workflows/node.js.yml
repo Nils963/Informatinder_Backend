@@ -42,8 +42,15 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /home/backend/informatinder
-            git pull
+            cd /home/backend
+            mv ./informatinder/public ./autodeploy/
+            rm -rf ./informatinder
+            git clone git@github.com:Nils963/Informatinder_Backend.git informatinder
+            mv ./autodeploy/.env ./informatinder
+            cd ./informatinder
+            mkdir public
             npm prune
             npm install
             systemctl restart informatinder_backend.service
+            mv ../autodeploy/public ./
+            chmod -R 777 ./public
