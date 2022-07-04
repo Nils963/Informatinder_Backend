@@ -46,7 +46,7 @@ jobs:
             mv ./informatinder/public ./autodeploy/
             rm -rf ./informatinder
             git clone git@github.com:Nils963/Informatinder_Backend.git informatinder
-            mv ./autodeploy/.env ./informatinder
+            cp ./autodeploy/.env ./informatinder
             cd ./informatinder
             mkdir public
             npm prune
