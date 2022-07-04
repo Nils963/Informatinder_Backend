@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "2c388d7d-10d5-4a0e-875a-5e52e42e1368",
+		"name": "informatinder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8080/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8080/user",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@localhost22222",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}:8080/user/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "Admin",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "erik@fabian.de",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "password",
+									"type": "default"
+								},
+								{
+									"key": "isBetrieb",
+									"value": "true",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}:8080/user/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "admin@localhost",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}:8080/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{url}}:8080/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profiles",
+			"item": [
+				{
+					"name": "GetOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8080/profile/2",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"profile",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8080/profile",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "erik2",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "backend dev",
+									"type": "default"
+								},
+								{
+									"key": "website",
+									"value": "www.google.com",
+									"type": "default"
+								},
+								{
+									"key": "languages",
+									"value": "{\"Java\":6,\"go\": 6}",
+									"type": "default"
+								},
+								{
+									"key": "categories",
+									"value": "[\"Backend\"]",
+									"type": "default"
+								},
+								{
+									"key": "benefits",
+									"value": "[]",
+									"type": "default"
+								},
+								{
+									"key": "contact",
+									"value": "+49176123456789",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:8080/profile/4",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"profile",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{url}}:8080/profile/1",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"profile",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Swipe",
+			"item": [
+				{
+					"name": "GetProfilesByPage",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{url}}:8080/swipe/1/5",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8080",
+							"path": [
+								"swipe",
+								"1",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "GetMatches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/matches",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/matches/like/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"matches",
+								"like",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dislike",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/matches/dislike/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"matches",
+								"dislike",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJBZG1pbiIsImVtYWlsIjoiZXJpa0BmYWJpYW4uZGUiLCJwcm9maWxlX2lkIjo0LCJpYXQiOjE2NTY5NTE4MzcsImV4cCI6MTY1OTU0MzgzN30.3EURK_tcMLTzhTJT2hM0gIli9a-kWAfDANCp_Dye0-o",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-access-token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost",
+			"type": "default"
+		},
+		{
+			"key": "url",
+			"value": "h2973117.stratoserver.net",
+			"type": "default",
+			"disabled": true
+		}
+	]
+}
