@@ -1,6 +1,7 @@
 import { server } from "../server.js";
 import supertest from "supertest";
 import path, { dirname } from "path"
+import { fileURLToPath } from 'url';
 const requestWithSupertest = supertest(server);
 
 const endpoint = "/profile"
@@ -8,30 +9,34 @@ let testServer;
 let testToken = "";
 let testId = -1;
 
-describe(`${endpoint} Endpoint`, () => {
-
-  beforeAll(async () => {
-    testServer = server.listen(null, () => {
-      global.agent = supertest.agent(testServer);
-    });
-    const res = await requestWithSupertest
-      .post(endpoint + "/auth/register")
-      .send({ username: "JESTTestUserusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUser@mail.de", isBetrieb: false })
-
-    testToken = res.token;
-    testId = JSON.parse("{" + res.user + "}").id;
+beforeAll(async () => {
+  testServer = server.listen(null, () => {
+    global.agent = supertest.agent(testServer);
   });
+
+  if (testToken.valueOf() === "") {
+    let res = await requestWithSupertest
+      .post("/user/auth/register")
+      .send({ username: "JESTTestUserusername", password: "JESTpassword", confirmPassword: "JESTpassword", email: "JESTUserPROFILETest@mail.de", isBetrieb: false })
+
+    let resObj = JSON.parse(res.text)
+    testToken = resObj.token;
+    testId = resObj.user.id;
+  }
+});
+
+describe(`${endpoint} Endpoint`, () => {
 
   it('GET /profile should show all profiles', async () => {
     const res = await requestWithSupertest.get(endpoint);
     expect(res.status).toEqual(200);
     expect(res.type).toEqual(expect.stringContaining('json'));
-    expect(res.body).toHaveProperty('profiles')
-    expect(res.type.profiles).toEqual(expect.stringContaining('Array'));
+    expect(res.body).toHaveProperty('profiles');
+    expect(typeof res.body.profiles).toEqual(expect.stringContaining('object'));
   });
 
   it('GET /profile/:id should show one profile', async () => {
-    const res = await requestWithSupertest.get(endpoint + "/1");
+    const res = await requestWithSupertest.get(endpoint + "/" + testId);
     expect(res.status).toEqual(200);
     expect(res.type).toEqual(expect.stringContaining('json'));
     expect(res.body).toHaveProperty('profile');
@@ -50,32 +55,38 @@ describe(`${endpoint} Endpoint`, () => {
     const res = await requestWithSupertest
       .patch(endpoint + "/" + testId)
       .set("x-access-token", testToken)
-      .send({ name: "test", description: "test", website: "www.test.de", languages: "{\"Java\":6}", categories: ["test"], benefits: ["test"], contact: "test" })
+      .send({
+        name: "test",
+        description: "test",
+        website: "www.test.de",
+        languages: "{\"Java\":6}",
+        categories: "[\"test\"]",
+        benefits: "[\"test\"]",
+        contact: "test"
+      })
 
     expect(res.status).toEqual(200);
-    expect(res.type).toEqual(expect.stringContaining('json'));
-    expect(res.body).toHaveProperty('user')
   });
 
-  it('UPDATE /profile/:id should return error no user', async () => {
+  it('UPDATE /profile/:id should return error not authorized', async () => {
     const res = await requestWithSupertest
       .patch(endpoint + "/-1")
       .set("x-access-token", testToken)
       .send({ name: "test", description: "test", website: "www.test.de", languages: "{\"Java\":6}", categories: ["test"], benefits: ["test"], contact: "test" })
 
-    expect(res.status).toEqual(404);
+    expect(res.status).toEqual(401);
     expect(res.type).toEqual(expect.stringContaining('json'));
     expect(res.body).toHaveProperty('error')
   });
 
   it('UPDATE /profile/image should upload the image', async () => {
-
-    const picture = path.resolve(dirname, './test.png');
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const picture = path.resolve(__dirname, './test.png');
     const res = await requestWithSupertest
       .post(endpoint + "/image")
       .set("x-access-token", testToken)
       .field('name', 'image')
-      .attach('file', picture);
+      .attach('image', picture);
 
     expect(res.status).toEqual(200);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -97,7 +108,7 @@ describe(`${endpoint} Endpoint`, () => {
       .set("x-access-token", testToken)
       .send()
 
-    expect(res.status).toEqual(404);
+    expect(res.status).toEqual(401);
     expect(res.type).toEqual(expect.stringContaining('json'));
     expect(res.body).toHaveProperty('error')
   });
