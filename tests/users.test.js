@@ -141,7 +141,7 @@ describe(`${endpoint} Endpoint`, () => {
 
   it('DELETE /user/:id should delete user', async () => {
     const res = await requestWithSupertest
-      .delete(endpoint + "/1")
+      .delete(endpoint + "/" + testId)
       .set("x-access-token", testToken)
       .send()
 
