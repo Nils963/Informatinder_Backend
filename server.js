@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser"
+import helmet from "helmet";
 import path, { dirname } from "path"
 import { fileURLToPath } from 'url';
 
@@ -10,6 +11,7 @@ import badRequest from "./middleware/badRequest.js"
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
+app.use(helmet());
 app.use(checkAuth);
 
 app.use('/', routes);
