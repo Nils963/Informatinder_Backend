@@ -43,8 +43,10 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/backend
+            echo "Save images..."
             mv ./informatinder/public ./autodeploy/
             rm -rf ./informatinder
+            echo "Clone..."
             git clone git@github.com:Nils963/Informatinder_Backend.git informatinder
             cp ./autodeploy/.env ./informatinder
             cd ./informatinder
@@ -52,5 +54,6 @@ jobs:
             npm prune
             npm install
             systemctl restart informatinder_backend.service
+            echo "Restarted. Backup images..."
             mv ../autodeploy/public ./
             chmod -R 777 ./public
