@@ -9,7 +9,7 @@ export const login = async (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(400).send(`No user with the email ${email}.`);
+        return res.status(400).json({ error: `No user with the email ${email}.` });
       }
       bcrypt.compare(password, user.password, (err, result) => {
         if (err) {

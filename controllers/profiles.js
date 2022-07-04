@@ -182,7 +182,7 @@ export const updateProfile = async (req, res) => {
 
 
         if (req.body.benefits != undefined) {
-          //delete all languages for this user
+          //delete all benefits for this user
           profile.setBenefits([])
           const benefits = JSON.parse(req.body.benefits)
           for (let bene in benefits) {
@@ -216,17 +216,20 @@ export const deleteProfile = async (req, res) => {
   if (id !== req.user.id) {
     return res.status(401).json({ error: "Not authorized." })
   }
-  models.Profile.destroy({ where: { id } })
-    .then(count => {
-      if (count === 0) {
-        return res.status(404).json({
-          error: "No Profile with given id",
-        })
-      } else {
-        res.status(200).send("Profile deleted");
-      }
+  try {
+    let profile = await models.Profile.findOne({ where: { id } })
+    if (!!profile) {
+      profile.setCategories([]);
+      profile.setBenefits([]);
+      models.Language.destroy({ where: { profile_id: id } })
+
+      profile.destroy();
+      return res.status(200).send("Profile deleted");
+    }
+    return res.status(404).json({
+      error: "No Profile with given id",
     })
-    .catch(err => {
-      res.status(500).send("500 - Server error");
-    })
+  } catch (error) {
+    res.status(500).send("500 - Server error");
+  }
 }

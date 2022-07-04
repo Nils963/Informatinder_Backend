@@ -2,6 +2,13 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 let sequelize;
 if (process.env.NODE_ENV === "test") {
+
+  // Testing in a testing database at server
+  // sequelize = new Sequelize(`mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/InformaTinder_Tests`, {
+  //   logging: false,
+  // });
+
+  //Testing in a local sqlite file
   sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: 'tests/testsdb.sqlite',
@@ -59,6 +66,10 @@ Profile.belongsToMany(Categorie, { through: "ProfileCategories" });
 Benefit.belongsToMany(Profile, { through: "ProfileBenefits" });
 Profile.belongsToMany(Benefit, { through: "ProfileBenefits" });
 
-sequelize.sync();
+try {
+  await sequelize.sync();
+} catch (error) {
+  console.log(error);
+}
 
 export const db = sequelize;
