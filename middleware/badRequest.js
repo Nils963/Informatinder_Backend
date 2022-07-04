@@ -6,8 +6,13 @@ router.all("*", (req, res) => {
 })
 
 router.use(function (e, req, res, next) {
-  if (e.message === "BAD_REQUEST") {
-    return res.status(400).json({ error: { msg: e.message } });
+  if (e != null) {
+    switch (e.message) {
+      case "request aborted":
+        return;
+      default:
+        return res.status(400).json({ error: { msg: e.message } });
+    }
   } else {
     next(req, res);
   }
